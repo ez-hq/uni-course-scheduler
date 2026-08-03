@@ -495,6 +495,155 @@
     .legend-dot.legend-low { background-color: var(--priority-low); }
 
     /* ========================================
+       8B. APPLE-STYLE SCHEDULE (课程块布局)
+       ======================================== */
+    .schedule-apple {
+      background-color: var(--bg-card);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    .schedule-apple-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-4) var(--space-6);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .schedule-apple-title {
+      font-size: var(--fs-body);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .schedule-apple-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      background-color: #ECFDF5;
+      color: var(--success);
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-full);
+      font-size: var(--fs-micro);
+      font-weight: 500;
+    }
+
+    .schedule-apple-badge svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .schedule-apple-days {
+      display: grid;
+      grid-template-columns: 48px repeat(5, 1fr);
+      border-bottom: 1px solid var(--border);
+      background-color: var(--bg-alt);
+    }
+
+    .schedule-apple-days .day-col {
+      padding: var(--space-3) var(--space-2);
+      text-align: center;
+      font-size: var(--fs-micro);
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .schedule-apple-days .day-col:first-child {
+      text-align: right;
+    }
+
+    .schedule-apple-body {
+      display: grid;
+      grid-template-columns: 48px repeat(5, 1fr);
+    }
+
+    .time-slot {
+      padding: var(--space-3) var(--space-2);
+      text-align: right;
+      font-size: var(--fs-micro);
+      color: var(--text-secondary);
+      font-weight: 500;
+      border-right: 1px solid var(--border);
+      background-color: var(--bg-alt);
+      position: sticky;
+      left: 0;
+    }
+
+    .course-block {
+      margin: var(--space-1) var(--space-2);
+      padding: var(--space-3) var(--space-3);
+      border-radius: 12px;
+      font-size: var(--fs-small);
+      line-height: 1.4;
+      min-height: 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border-left: 3px solid;
+    }
+
+    .course-block .course-name {
+      font-weight: 600;
+      font-size: var(--fs-small);
+      margin-bottom: 2px;
+    }
+
+    .course-block .course-meta {
+      font-size: var(--fs-micro);
+      opacity: 0.8;
+    }
+
+    .course-block.block-high {
+      background-color: #FEF2F2;
+      border-left-color: var(--priority-high);
+      color: #991B1B;
+    }
+
+    .course-block.block-mid {
+      background-color: #FFFBEB;
+      border-left-color: var(--priority-mid);
+      color: #92400E;
+    }
+
+    .course-block.block-low {
+      background-color: #F0FDF4;
+      border-left-color: var(--priority-low);
+      color: #166534;
+    }
+
+    .course-block.block-lunch {
+      background-color: var(--bg-alt);
+      border-left-color: var(--border);
+      color: var(--text-secondary);
+      grid-column: 2 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row;
+      gap: var(--space-2);
+      font-weight: 500;
+    }
+
+    .empty-slot {
+      margin: var(--space-1) var(--space-2);
+      min-height: 56px;
+    }
+
+    .schedule-apple-legend {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-6);
+      padding: var(--space-4) var(--space-6);
+      border-top: 1px solid var(--border);
+      background-color: var(--bg-alt);
+    }
+
+    /* ========================================
        9. PAIN POINTS
        ======================================== */
     .pain-grid {
@@ -992,6 +1141,406 @@
     }
 
     /* ========================================
+       13B. SIMPLIFIED INSTALL STEPS
+       ======================================== */
+    .install-simple {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+      margin-bottom: var(--space-8);
+      position: relative;
+    }
+
+    .install-simple::before {
+      content: '';
+      position: absolute;
+      top: 44px;
+      left: calc(16.666% + 32px);
+      right: calc(16.666% + 32px);
+      height: 2px;
+      background: linear-gradient(to right, var(--primary-light), var(--accent));
+      border-radius: 2px;
+      opacity: 0.3;
+    }
+
+    .install-simple-step {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .install-simple-num {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background-color: var(--bg-card);
+      border: 3px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--space-4);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .install-simple-step:nth-child(2) .install-simple-num {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .install-simple-step:nth-child(3) .install-simple-num {
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .install-simple-icon {
+      margin-bottom: var(--space-3);
+    }
+
+    .install-simple-icon svg {
+      color: var(--primary);
+    }
+
+    .install-simple-step:nth-child(2) .install-simple-icon svg {
+      color: var(--accent);
+    }
+
+    .install-simple-step:nth-child(3) .install-simple-icon svg {
+      color: var(--success);
+    }
+
+    .install-simple-title {
+      font-size: var(--fs-subtitle);
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--space-2);
+    }
+
+    .install-simple-desc {
+      font-size: var(--fs-body);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: var(--space-4);
+      max-width: 240px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .install-simple-code {
+      display: inline-block;
+      background-color: var(--bg-dark);
+      color: #93C5FD;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', 'Courier New', monospace;
+      font-size: var(--fs-small);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      margin-top: var(--space-2);
+    }
+
+    /* ========================================
+       13C. CLOUD VALUE PROPOSITION
+       ======================================== */
+    .cloud-value {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+      margin-bottom: var(--space-8);
+    }
+
+    .cloud-value-card {
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cloud-value-card.manual {
+      background-color: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .cloud-value-card.cloud {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(249, 115, 22, 0.1));
+      border: 1px solid rgba(79, 70, 229, 0.3);
+    }
+
+    .cloud-value-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: var(--fs-micro);
+      font-weight: 600;
+      margin-bottom: var(--space-4);
+    }
+
+    .cloud-value-card.manual .cloud-value-badge {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: var(--text-on-dark-secondary);
+    }
+
+    .cloud-value-card.cloud .cloud-value-badge {
+      background-color: rgba(249, 115, 22, 0.2);
+      color: var(--accent);
+    }
+
+    .cloud-value-title {
+      font-size: var(--fs-subtitle);
+      font-weight: 600;
+      color: var(--text-on-dark);
+      margin-bottom: var(--space-4);
+    }
+
+    .cloud-value-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .cloud-value-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+      font-size: var(--fs-body);
+      color: var(--text-on-dark-secondary);
+      line-height: 1.6;
+    }
+
+    .cloud-value-list li svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .cloud-value-card.manual .cloud-value-list li svg {
+      color: var(--text-on-dark-secondary);
+    }
+
+    .cloud-value-card.cloud .cloud-value-list li svg {
+      color: var(--success);
+    }
+
+    .cloud-value-price {
+      margin-top: var(--space-6);
+      padding-top: var(--space-4);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .cloud-value-price .price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-on-dark);
+      line-height: 1;
+    }
+
+    .cloud-value-price .price-desc {
+      font-size: var(--fs-small);
+      color: var(--text-on-dark-secondary);
+      margin-top: var(--space-2);
+    }
+
+    .cloud-value-card.cloud .cloud-value-list li strong {
+      color: var(--text-on-dark);
+      font-weight: 600;
+    }
+
+    .cloud-value-note {
+      text-align: center;
+      font-size: var(--fs-small);
+      color: var(--text-on-dark-secondary);
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 768px) {
+      .cloud-value {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ========================================
+       14C. SAMPLE OUTPUT (云端输出示例)
+       ======================================== */
+    .sample-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+    }
+
+    .sample-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-6);
+      overflow: hidden;
+    }
+
+    .sample-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: var(--fs-micro);
+      font-weight: 600;
+      color: var(--primary);
+      background-color: rgba(79, 70, 229, 0.08);
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      margin-bottom: var(--space-4);
+    }
+
+    .sample-card-title {
+      font-size: var(--fs-subtitle);
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--space-3);
+    }
+
+    .sample-kv {
+      list-style: none;
+      padding: 0;
+      font-size: var(--fs-small);
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .sample-kv li {
+      padding: var(--space-2) 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .sample-kv li:last-child {
+      border-bottom: none;
+    }
+
+    .sample-kv strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .sample-reco {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sample-reco li {
+      display: flex;
+      gap: var(--space-3);
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid var(--border);
+      font-size: var(--fs-small);
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    .sample-reco li:last-child {
+      border-bottom: none;
+    }
+
+    .sample-reco strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .p-badge {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 2px;
+    }
+
+    .p-badge.high { background-color: var(--priority-high); }
+    .p-badge.mid { background-color: var(--priority-mid); }
+    .p-badge.low { background-color: var(--priority-low); }
+
+    /* Excel 文件效果模拟 */
+    .excel-mock {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background-color: #fff;
+    }
+
+    .excel-tabs {
+      display: flex;
+      gap: 2px;
+      background-color: var(--bg-alt);
+      padding: var(--space-2) var(--space-2) 0;
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+    }
+
+    .excel-tab {
+      padding: 6px 12px;
+      font-size: var(--fs-micro);
+      color: var(--text-secondary);
+      border-radius: 6px 6px 0 0;
+      white-space: nowrap;
+    }
+
+    .excel-tab.active {
+      background-color: #fff;
+      color: var(--text-primary);
+      font-weight: 600;
+      border: 1px solid var(--border);
+      border-bottom: 1px solid #fff;
+      margin-bottom: -1px;
+    }
+
+    .excel-grid {
+      padding: var(--space-3);
+    }
+
+    .excel-row {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr 0.9fr 0.7fr;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .excel-cell {
+      padding: 6px 8px;
+      font-size: var(--fs-micro);
+      border-radius: 4px;
+      background-color: var(--bg-alt);
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .excel-cell.head {
+      font-weight: 600;
+      background-color: transparent;
+      color: var(--text-secondary);
+    }
+
+    .excel-cell.cell-high { background-color: #FEF2F2; color: #991B1B; }
+    .excel-cell.cell-mid { background-color: #FFFBEB; color: #92400E; }
+    .excel-cell.cell-low { background-color: #F0FDF4; color: #166534; }
+
+    .sample-footnote {
+      text-align: center;
+      font-size: var(--fs-micro);
+      color: var(--text-secondary);
+      margin-top: var(--space-6);
+    }
+
+    @media (max-width: 768px) {
+      .sample-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ========================================
        15. PRICING
        ======================================== */
     .pricing-card {
@@ -1259,6 +1808,24 @@
         grid-template-columns: 1fr;
       }
 
+      .install-simple {
+        grid-template-columns: 1fr;
+        gap: var(--space-10);
+      }
+
+      .install-simple::before {
+        display: none;
+      }
+
+      .schedule-apple {
+        overflow-x: auto;
+      }
+
+      .schedule-apple-days,
+      .schedule-apple-body {
+        min-width: 640px;
+      }
+
       .footer-inner {
         flex-direction: column;
         text-align: center;
@@ -1303,10 +1870,6 @@
         <a href="#workflow" class="nav-link">流程</a>
         <a href="#install" class="nav-link">安装</a>
       </nav>
-      <a href="#install" class="btn btn-primary btn-sm">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        下载安装
-      </a>
     </div>
   </header>
 
@@ -1320,9 +1883,9 @@
           <h1 class="hero-title">选课不迷茫，排课不冲突</h1>
           <p class="hero-subtitle">从学校信息到一周课表，AI 帮你分析培养方案、推荐课程、优化排课时间、标记抢课优先级，最后生成一份带颜色标记的 Excel 课表。</p>
           <div class="hero-cta">
-            <a href="#install" class="btn btn-primary btn-lg">
+            <a href="https://github.com/emmaqizhou-del/uni-course-scheduler/releases/download/v1.0.0/uni-course-scheduler-v1.0.0.zip" class="btn btn-primary btn-lg" download>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              下载安装
+              免费下载
             </a>
             <a href="#workflow" class="btn btn-secondary btn-lg">查看流程</a>
           </div>
@@ -1333,81 +1896,56 @@
         </div>
 
         <div class="hero-visual" data-animate>
-          <div class="schedule-card">
-            <div class="schedule-card-header">
-              <span class="schedule-card-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Week 1 · 课表预览</span>
-              <span class="badge-success">
+          <div class="schedule-apple">
+            <div class="schedule-apple-header">
+              <span class="schedule-apple-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:6px;"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Week 1 · 课表预览</span>
+              <span class="schedule-apple-badge">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 无冲突
               </span>
             </div>
-            <table class="schedule-table">
-              <thead>
-                <tr>
-                  <th class="time-col"></th>
-                  <th class="day-header">周一</th>
-                  <th class="day-header">周二</th>
-                  <th class="day-header">周三</th>
-                  <th class="day-header">周四</th>
-                  <th class="day-header">周五</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="time-col">09:00</td>
-                  <td class="course-cell high"><span class="course-name">数据结构</span><span class="course-type">Lecture</span></td>
-                  <td class="course-cell mid"><span class="course-name">算法设计</span><span class="course-type">Lecture</span></td>
-                  <td class="empty-cell"></td>
-                  <td class="empty-cell"></td>
-                  <td class="empty-cell"></td>
-                </tr>
-                <tr>
-                  <td class="time-col">10:00</td>
-                  <td class="course-cell high"><span class="course-name">高等数学</span><span class="course-type">Lecture</span></td>
-                  <td class="empty-cell"></td>
-                  <td class="empty-cell"></td>
-                  <td class="course-cell low"><span class="course-name">哲学导论</span><span class="course-type">Seminar</span></td>
-                  <td class="empty-cell"></td>
-                </tr>
-                <tr>
-                  <td class="time-col">11:00</td>
-                  <td class="empty-cell"></td>
-                  <td class="empty-cell"></td>
-                  <td class="empty-cell"></td>
-                  <td class="empty-cell"></td>
-                  <td class="empty-cell"></td>
-                </tr>
-                <tr>
-                  <td class="time-col">12:00</td>
-                  <td colspan="5" class="lunch-cell"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px;"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zM21 15v7"/></svg>午休时间</td>
-                </tr>
-                <tr>
-                  <td class="time-col">13:00</td>
-                  <td class="course-cell low"><span class="course-name">英语写作</span><span class="course-type">Tutorial</span></td>
-                  <td class="empty-cell"></td>
-                  <td class="empty-cell"></td>
-                  <td class="empty-cell"></td>
-                  <td class="empty-cell"></td>
-                </tr>
-                <tr>
-                  <td class="time-col">14:00</td>
-                  <td class="empty-cell"></td>
-                  <td class="empty-cell"></td>
-                  <td class="course-cell high" rowspan="2"><span class="course-name">实验物理</span><span class="course-type">Lab · 2h</span></td>
-                  <td class="empty-cell"></td>
-                  <td class="empty-cell"></td>
-                </tr>
-                <tr>
-                  <td class="time-col">15:00</td>
-                  <td class="empty-cell"></td>
-                  <td class="empty-cell"></td>
-                  <td class="empty-cell"></td>
-                  <td class="empty-cell"></td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="schedule-legend">
-              <span class="legend-item"><span class="legend-dot legend-high"></span>必修</span>
+            <div class="schedule-apple-days">
+              <div class="day-col"></div>
+              <div class="day-col">周一</div>
+              <div class="day-col">周二</div>
+              <div class="day-col">周三</div>
+              <div class="day-col">周四</div>
+              <div class="day-col">周五</div>
+            </div>
+            <div class="schedule-apple-body">
+              <div class="time-slot">09:00</div>
+              <div class="course-block block-high"><span class="course-name">数据结构</span><span class="course-meta">Lecture · 必修</span></div>
+              <div class="course-block block-mid"><span class="course-name">算法设计</span><span class="course-meta">Lecture</span></div>
+              <div class="empty-slot"></div>
+              <div class="empty-slot"></div>
+              <div class="empty-slot"></div>
+
+              <div class="time-slot">10:00</div>
+              <div class="course-block block-high"><span class="course-name">高等数学</span><span class="course-meta">Lecture · 必修</span></div>
+              <div class="empty-slot"></div>
+              <div class="empty-slot"></div>
+              <div class="course-block block-low"><span class="course-name">哲学导论</span><span class="course-meta">Seminar</span></div>
+              <div class="empty-slot"></div>
+
+              <div class="time-slot">12:00</div>
+              <div class="course-block block-lunch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zM21 15v7"/></svg>午休时间 · 12:00-13:00</div>
+
+              <div class="time-slot">13:00</div>
+              <div class="course-block block-low"><span class="course-name">英语写作</span><span class="course-meta">Tutorial</span></div>
+              <div class="empty-slot"></div>
+              <div class="empty-slot"></div>
+              <div class="empty-slot"></div>
+              <div class="empty-slot"></div>
+
+              <div class="time-slot">14:00</div>
+              <div class="empty-slot"></div>
+              <div class="empty-slot"></div>
+              <div class="course-block block-high"><span class="course-name">实验物理</span><span class="course-meta">Lab · 2h</span></div>
+              <div class="empty-slot"></div>
+              <div class="empty-slot"></div>
+            </div>
+            <div class="schedule-apple-legend">
+              <span class="legend-item"><span class="legend-dot legend-high"></span>必抢必修</span>
               <span class="legend-item"><span class="legend-dot legend-mid"></span>中优先级</span>
               <span class="legend-item"><span class="legend-dot legend-low"></span>低优先级</span>
             </div>
@@ -1659,28 +2197,28 @@
       <div class="container">
         <div class="section-header" data-animate>
           <span class="micro-label">QUICK INSTALL</span>
-          <h2 class="section-title">三步安装，马上开始</h2>
+          <h2 class="section-title">三步装好，就能用</h2>
         </div>
-        <div class="install-grid">
-          <div class="install-step" data-animate>
-            <div class="install-step-num">1</div>
-            <div class="install-step-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
-            <h3 class="install-step-title">下载</h3>
-            <p class="install-step-desc">从 GitHub Release 下载 ZIP 包并解压到本地</p>
+        <div class="install-simple">
+          <div class="install-simple-step" data-animate>
+            <div class="install-simple-num">1</div>
+            <div class="install-simple-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+            <h3 class="install-simple-title">点下方按钮下载</h3>
+            <p class="install-simple-desc">下载 ZIP 包，解压到任意位置，记住解压后的文件夹路径</p>
           </div>
-          <div class="install-step" data-animate>
-            <div class="install-step-num">2</div>
-            <div class="install-step-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
-            <h3 class="install-step-title">安装</h3>
-            <p class="install-step-desc">将 uni-course-scheduler 文件夹复制到指定路径</p>
-            <code class="code-block">~/.workbuddy/skills/</code>
+          <div class="install-simple-step" data-animate>
+            <div class="install-simple-num">2</div>
+            <div class="install-simple-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+            <h3 class="install-simple-title">把文件夹拖到这里</h3>
+            <p class="install-simple-desc">复制解压出来的 uni-course-scheduler 文件夹，粘贴到下面这个路径</p>
+            <span class="install-simple-code">~/.workbuddy/skills/</span>
           </div>
-          <div class="install-step" data-animate>
-            <div class="install-step-num">3</div>
-            <div class="install-step-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.08-2.91a2.18 2.18 0 0 0-2.91-.08zM12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div>
-            <h3 class="install-step-title">启动</h3>
-            <p class="install-step-desc">在 WorkBuddy 中输入命令启动 Skill</p>
-            <code class="code-block">/uni-course-scheduler</code>
+          <div class="install-simple-step" data-animate>
+            <div class="install-simple-num">3</div>
+            <div class="install-simple-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.08-2.91a2.18 2.18 0 0 0-2.91-.08zM12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div>
+            <h3 class="install-simple-title">打开 WorkBuddy 就能用</h3>
+            <p class="install-simple-desc">在 WorkBuddy 输入框里输入下面这行字，回车即可开始选课</p>
+            <span class="install-simple-code">/uni-course-scheduler</span>
           </div>
         </div>
         <div class="platform-tags">
@@ -1694,7 +2232,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             下载安装包（完整版）
           </a>
-          <p class="install-cta-alt"><a href="https://github.com/emmaqizhou-del/uni-course-scheduler/releases/download/v1.0.0/uni-course-scheduler.zip" download>仅下载 Skill 包</a> · <a href="https://github.com/emmaqizhou-del/uni-course-scheduler/releases/tag/v1.0.0" target="_blank" rel="noopener">查看 Release 页面</a> · <a href="https://github.com/emmaqizhou-del/uni-course-scheduler" target="_blank" rel="noopener">GitHub 仓库</a></p>
+          <p class="install-cta-alt"><a href="https://github.com/emmaqizhou-del/uni-course-scheduler/releases/download/v1.0.0/uni-course-scheduler.zip" download>仅下载 Skill 包</a> · <a href="https://github.com/emmaqizhou-del/uni-course-scheduler" target="_blank" rel="noopener">GitHub 仓库</a></p>
         </div>
       </div>
     </section>
@@ -1703,23 +2241,183 @@
     <section id="boundary" class="section section-dark">
       <div class="container">
         <div class="section-header" data-animate>
-          <span class="micro-label">CLOUD × LOCAL</span>
-          <h2 class="section-title">云端做什么，本地做什么</h2>
+          <span class="micro-label">WHY CLOUD</span>
+          <h2 class="section-title">为什么要升级云端 AI 服务？</h2>
+          <p class="section-subtitle">本地 Skill 免费帮你生成课表文件，云端 AI 帮你做出「选对课」的关键决策</p>
         </div>
-        <div class="boundary-grid">
-          <div class="boundary-card" data-animate>
-            <div class="boundary-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>
-            <h3 class="boundary-label">云端（LoomLoom）</h3>
-            <p class="boundary-desc">课程目录分析、AI 选课推荐、课表优化排布、抢课优先级分析。每次执行约 ¥0.2，执行前确认。</p>
-            <span class="boundary-cost">¥0.2 / 次 · 执行前确认</span>
+        <div class="cloud-value">
+          <div class="cloud-value-card manual" data-animate>
+            <span class="cloud-value-badge">没有云端 AI 时</span>
+            <h3 class="cloud-value-title">手动排课的自己</h3>
+            <ul class="cloud-value-list">
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                翻几十页培养方案，逐门课查先修要求，一看就是一晚上
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                凭感觉选课，容易漏修必修课，或错过给分好的宝藏课
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                手动填格子排课，时间冲突、早八连堂全凭运气避开
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                抢课当天才发现热门课爆满，没有备选方案只能干着急
+              </li>
+            </ul>
           </div>
-          <div class="boundary-card" data-animate>
-            <div class="boundary-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-            <h3 class="boundary-label">本地（你的 Agent）</h3>
-            <p class="boundary-desc">交互问答引导、Excel 文件生成（6 sheets + 条件格式）、课表校验（冲突检测/学分校验/午休检查）、.ics 日历导出。</p>
-            <span class="boundary-cost" style="background-color: rgba(34, 197, 94, 0.15); color: var(--success);">完全免费 · 本地运行</span>
+          <div class="cloud-value-card cloud" data-animate>
+            <span class="cloud-value-badge">升级云端 AI 后</span>
+            <h3 class="cloud-value-title">有 AI 参谋的你</h3>
+            <ul class="cloud-value-list">
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>联网分析培养方案</strong>：自动梳理毕业要求、学分结构与先修链，不漏任何一门必修课</span>
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>AI 推荐 + 理由</strong>：结合你的目标（保研 / 就业 / 兴趣）推荐课程，每门课都说明为什么选它</span>
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>智能排课优化</strong>：自动避开时间冲突、减少早八、预留午休，排出人性化的一周课表</span>
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>抢课优先级标记</strong>：🔴 必抢 / 🟠 推荐 / 🟢 备选三色标记，抢课当天照着清单点就行</span>
+              </li>
+            </ul>
+            <div class="cloud-value-price">
+              <div class="price"><span style="font-size: 1.5rem; vertical-align: 6px;">¥</span>0.2<span style="font-size: 1rem; font-weight: 400; color: var(--text-on-dark-secondary);"> / 次</span></div>
+              <p class="price-desc">一次执行 = 分析 + 推荐 + 排课 + 优先级全套流程 · 执行前确认，不花冤枉钱</p>
+            </div>
           </div>
         </div>
+        <p class="cloud-value-note" data-animate>本地 Skill 完全免费：交互引导、Excel 课表生成（6 sheets + 颜色标记）、冲突校验、.ics 日历导出，不花一分钱也能用。<br>云端升级<strong style="color: var(--text-on-dark);">无需再次下载</strong>——装好本地 Skill 后，在 WorkBuddy 里直接发起云端执行即可（需 LoomLoom 账户余额，每次执行前确认费用）。</p>
+      </div>
+    </section>
+
+    <!-- ==================== SAMPLE OUTPUT ==================== -->
+    <section id="sample-output" class="section">
+      <div class="container">
+        <div class="section-header" data-animate>
+          <span class="micro-label">SAMPLE OUTPUT</span>
+          <h2 class="section-title">云端跑一次，你拿到这些</h2>
+          <p class="section-subtitle">一次云端执行 = 4 份产出，从「选什么」到「怎么排」再到「拿去用」</p>
+        </div>
+        <div class="sample-grid">
+
+          <div class="sample-card" data-animate>
+            <span class="sample-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>输出 1 · 培养方案分析</span>
+            <h3 class="sample-card-title">先搞清楚「毕业要什么」</h3>
+            <ul class="sample-kv">
+              <li><strong>毕业要求</strong>：128 学分 = 必修 96 + 限选 16 + 通识 16</li>
+              <li><strong>本学期建议</strong>：4–5 门课，不超过 26 学分，留缓冲给适应期</li>
+              <li><strong>先修链提醒</strong>：数据结构 → 算法设计 → 机器学习，建议大一上先修数据结构</li>
+              <li><strong>风险提示</strong>：高等数学（上）是 7 门后续课的先修，挂科将连锁延期</li>
+            </ul>
+          </div>
+
+          <div class="sample-card" data-animate>
+            <span class="sample-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>输出 2 · AI 选课推荐（含理由）</span>
+            <h3 class="sample-card-title">每门课都告诉你「为什么选」</h3>
+            <ul class="sample-reco">
+              <li><span class="p-badge high">抢</span><span><strong>数据结构</strong>（必修 4 学分）——秋季仅开 1 个班，先修核心，错过等一年</span></li>
+              <li><span class="p-badge high">抢</span><span><strong>高等数学（上）</strong>（必修 5 学分）——7 门后续课的先修，优先级最高</span></li>
+              <li><span class="p-badge mid">荐</span><span><strong>算法设计</strong>（限选 3 学分）——与数据结构互补，历年给分好</span></li>
+              <li><span class="p-badge low">备</span><span><strong>哲学导论</strong>（通识 2 学分）——名额充足，建议大一大二修完通识</span></li>
+              <li><span class="p-badge low">备</span><span><strong>英语写作</strong>（通识 2 学分）——毕业硬性要求，越早修完越省心</span></li>
+            </ul>
+          </div>
+
+          <div class="sample-card" data-animate>
+            <span class="sample-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>输出 3 · 优化后的一周课表</span>
+            <h3 class="sample-card-title">自动避冲突、减少早八、留午休</h3>
+            <div class="schedule-apple" style="box-shadow: none; border: 1px solid var(--border);">
+              <div class="schedule-apple-days">
+                <div class="day-col"></div>
+                <div class="day-col">一</div>
+                <div class="day-col">二</div>
+                <div class="day-col">三</div>
+                <div class="day-col">四</div>
+                <div class="day-col">五</div>
+              </div>
+              <div class="schedule-apple-body">
+                <div class="time-slot">09:00</div>
+                <div class="course-block block-high"><span class="course-name">数据结构</span></div>
+                <div class="course-block block-mid"><span class="course-name">算法设计</span></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="time-slot">10:00</div>
+                <div class="course-block block-high"><span class="course-name">高等数学</span></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="course-block block-low"><span class="course-name">哲学导论</span></div>
+                <div class="empty-slot"></div>
+                <div class="time-slot">12:00</div>
+                <div class="course-block block-lunch">午休 · 12:00–13:00</div>
+                <div class="time-slot">14:00</div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="course-block block-high"><span class="course-name">实验物理</span></div>
+                <div class="empty-slot"></div>
+                <div class="course-block block-low"><span class="course-name">英语写作</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sample-card" data-animate>
+            <span class="sample-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>输出 4 · 带颜色标记的 Excel 课表</span>
+            <h3 class="sample-card-title">6 个 sheet，下载打印都能用</h3>
+            <div class="excel-mock">
+              <div class="excel-tabs">
+                <span class="excel-tab active">课表总览</span>
+                <span class="excel-tab">课程详情</span>
+                <span class="excel-tab">优先级清单</span>
+                <span class="excel-tab">校验报告</span>
+                <span class="excel-tab">学分统计</span>
+                <span class="excel-tab">使用说明</span>
+              </div>
+              <div class="excel-grid">
+                <div class="excel-row">
+                  <span class="excel-cell head">课程</span>
+                  <span class="excel-cell head">时间</span>
+                  <span class="excel-cell head">学分</span>
+                  <span class="excel-cell head">优先级</span>
+                </div>
+                <div class="excel-row">
+                  <span class="excel-cell cell-high">数据结构</span>
+                  <span class="excel-cell">周一 09:00</span>
+                  <span class="excel-cell">4</span>
+                  <span class="excel-cell cell-high">必抢</span>
+                </div>
+                <div class="excel-row">
+                  <span class="excel-cell cell-high">高等数学（上）</span>
+                  <span class="excel-cell">周一 10:00</span>
+                  <span class="excel-cell">5</span>
+                  <span class="excel-cell cell-high">必抢</span>
+                </div>
+                <div class="excel-row">
+                  <span class="excel-cell cell-mid">算法设计</span>
+                  <span class="excel-cell">周二 09:00</span>
+                  <span class="excel-cell">3</span>
+                  <span class="excel-cell cell-mid">推荐</span>
+                </div>
+                <div class="excel-row">
+                  <span class="excel-cell cell-low">哲学导论</span>
+                  <span class="excel-cell">周四 10:00</span>
+                  <span class="excel-cell">2</span>
+                  <span class="excel-cell cell-low">备选</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <p class="sample-footnote" data-animate>以上为示例输出（模拟数据）。实际内容根据你的学校、专业、年级和目标实时生成，查不到的课程信息不会编造，会提示你补充。</p>
       </div>
     </section>
 
@@ -1759,11 +2457,7 @@
               6-Sheet Excel 输出
             </div>
           </div>
-          <a href="#install" class="btn btn-primary btn-lg">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            下载安装
-          </a>
-          <p class="pricing-note">本地 Skill 完全免费，只有云端执行才产生费用</p>
+          <p class="pricing-note">本地 Skill 完全免费，只有云端执行才产生费用。<a href="https://github.com/emmaqizhou-del/uni-course-scheduler/releases/download/v1.0.0/uni-course-scheduler-v1.0.0.zip" download style="color: var(--primary); font-weight: 600; text-decoration: underline;">免费下载本地 Skill →</a></p>
         </div>
       </div>
     </section>
@@ -1771,11 +2465,8 @@
     <!-- ==================== FINAL CTA ==================== -->
     <section id="final-cta" class="final-cta">
       <div class="container">
-        <h2 class="final-title">准备好了吗？下载安装，马上开始排课</h2>
-        <a href="#install" class="btn btn-white btn-lg">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          下载安装
-        </a>
+        <h2 class="final-title">准备好了吗？马上开始排课</h2>
+        <a href="https://github.com/emmaqizhou-del/uni-course-scheduler/releases/download/v1.0.0/uni-course-scheduler-v1.0.0.zip" download style="color: #fff; font-size: 1.125rem; font-weight: 600; text-decoration: underline; text-underline-offset: 4px;">免费下载，立即开始 →</a>
       </div>
     </section>
 
