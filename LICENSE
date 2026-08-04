@@ -1,21 +1,46 @@
-MIT License
+Copyright (c) 2026 emmaqizhou-del. All rights reserved.
 
-Copyright (c) 2026 course-scheduler
+个人使用免费 · 禁止商用再分发
+Personal Use License — No Commercial Redistribution
+
+一、你可以（免费）
+
+1. 下载、安装、使用本软件（uni-course-scheduler），用于你自己的选课、排课等个人用途。
+2. 为个人学习目的阅读、修改源代码。
+
+二、你不可以（除非获得作者书面许可）
+
+1. 将本软件的全部或部分（包括但不限于 SKILL.md、脚本、数据结构、提示词）用于任何商业目的。
+2. 转售、再分发本软件或其修改版本，无论是否收费。
+3. 将本软件或其衍生作品作为商业产品或服务的一部分提供。
+4. 在任何收费平台、应用市场、技能市场上重新上架本软件或其修改版本。
+
+三、条件
+
+1. 所有副本或重要部分必须保留本许可声明和版权声明。
+2. 修改版必须明确标注已被修改。
+
+四、免责声明
+
+本软件按"现状"提供，不附带任何明示或默示的保证，包括但不限于对适销性、特定用途适用性的保证。作者不对因使用本软件而产生的任何直接、间接损失承担责任。
+
+---
+
+English Summary (the Chinese text above prevails):
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+of this software and associated documentation files (the "Software"), to use,
+copy, and modify the Software for personal, non-commercial purposes only,
+subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. The above copyright notice and this license shall be included in all
+   copies or substantial portions of the Software.
+2. Commercial use of any kind — including but not limited to reselling,
+   redistributing (free or paid), bundling into a commercial product or
+   service, or re-listing on any paid marketplace or skill store — is
+   prohibited without the author's prior written consent.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY AND
+FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THIS SOFTWARE.
