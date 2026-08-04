@@ -1,7 +1,7 @@
 # Cloud Output Format — Expected JSON Structure
 
-When LoomLoom executes the 3-step cloud pipeline, each step returns a JSON
-object. The combined output is passed to `scripts/generate_excel.py`.
+When the LoomLoom SkillBot finishes a run, each row of the workbook returns
+JSON outputs. The combined output is passed to `scripts/generate_excel.py`.
 
 ## Combined Input JSON
 
@@ -106,15 +106,15 @@ object. The combined output is passed to `scripts/generate_excel.py`.
 }
 ```
 
-## Step-by-Step Output
+## Output Sections
 
-### Step 1: stp_catalog (Course Catalog Analysis)
+### Catalog Analysis Output
 Returns the `course_overview` object with an array of course objects.
 
-### Step 2: stp_recommend (Course Recommendation)
+### Recommendation Output
 Returns the `recommendations` object with recommendation entries.
 
-### Step 3: stp_schedule (Weekly Schedule Generation)
+### Schedule Output
 Returns the `weekly_schedule` object with session entries, conflict detection,
 daily density, and enrollment priority list.
 
