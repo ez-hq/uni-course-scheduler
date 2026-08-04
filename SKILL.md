@@ -7,7 +7,7 @@ description: >-
   Supports international education systems (US/AU/UK/ECTS/CN).
   Offers two execution modes: free local mode and paid LoomLoom cloud mode
   (fixed pipeline, stable quality, batch multi-school runs).
-version: 2.1.0
+version: 2.1.1
 author: course-scheduler
 license: MIT
 agent_created: true
@@ -64,16 +64,17 @@ Ask: "AI 分析推荐有两种执行方式，你选哪种？"
 - **本地快速模式（免费）** — 我（当前 agent）立即联网检索课程信息并完成推荐排课。
   - 优点：免费、马上出结果
   - 缺点：质量取决于当前 agent 的模型能力，每次输出格式可能不一致，一次只能处理一所学校，结果不可复现
-- **云端标准模式（付费 · LoomLoom）** — 调用 LoomLoom 市场 SkillBot「大学选课排课助手」的固定云端管道：培养方案分析 → AI 推荐 → 智能排课，三步固定流程 + 固定模型。
+- **云端标准模式（付费 · LoomLoom）** — 我（当前 agent）先联网采集好课程目录文本，再调用 LoomLoom 市场 SkillBot「大学选课排课助手」的固定云端管道：培养方案分析 → AI 推荐 → 智能排课，三步固定流程 + 固定模型。
   - 优点：质量稳定、格式统一、结果可复现；支持 **Excel 批量**——一次运行同时处理多所学校 / 多名学生
   - 成本：按次付费（市场价 ¥5/次，以运行前平台预估为准），需要用户有 LoomLoom 账户和余额
 
 **Cloud mode rules (mandatory):**
-1. Use the LoomLoom CLI buyer flow (`loomloom market` / `loomloom run`) to execute through the Listing. Never reconstruct the pipeline locally in cloud mode — the user is paying for the standardized pipeline output.
-2. Before submitting any cloud run: show the platform's current fee estimate and obtain the user's **explicit confirmation in the current conversation**. No confirmation, no submission.
-3. If the user has no LoomLoom token/balance, guide them: `loomloom login` or the platform console recharge page, then retry.
-4. For batch needs (multiple schools or multiple students), always recommend cloud mode with the Excel workbook input — one row per student.
-5. After the cloud run finishes: download the results, map them into this Skill's JSON input format (below), and continue with Step 7 to generate the Excel + ICS files locally.
+1. **Collect the catalog FIRST, locally** — the cloud pipeline has NO web access. Before any cloud run, you (the local agent) MUST research the university's official handbook/catalog online (WebSearch / WebFetch), extract the relevant course catalog text (required courses, credits, prerequisites, meeting times if available), and provide it as the `course_catalog` input. Never submit a cloud run with an empty catalog — an empty catalog produces placeholder output and wastes the user's money.
+2. Use the LoomLoom CLI buyer flow (`loomloom market` / `loomloom run`) to execute through the Listing. Never reconstruct the pipeline locally in cloud mode — the user is paying for the standardized pipeline output.
+3. Before submitting any cloud run: show the platform's current fee estimate and obtain the user's **explicit confirmation in the current conversation**. No confirmation, no submission.
+4. If the user has no LoomLoom token/balance, guide them: `loomloom login` or the platform console recharge page, then retry.
+5. For batch needs (multiple schools or multiple students), always recommend cloud mode with the Excel workbook input — one row per student, catalog text pasted in the catalog column (you should collect it for each school).
+6. After the cloud run finishes: download the results, map them into this Skill's JSON input format (below), and continue with Step 7 to generate the Excel + ICS files locally.
 
 If the user chooses 本地快速模式, proceed with Step 6 as before. If they choose 云端标准模式, run the cloud pipeline first, then return here for file generation.
 
