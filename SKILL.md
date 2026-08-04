@@ -7,7 +7,7 @@ description: >-
   Supports international education systems (US/AU/UK/ECTS/CN).
   Offers two execution modes: free local mode and paid LoomLoom cloud mode
   (fixed pipeline, stable quality, batch multi-school runs).
-version: 2.1.1
+version: 2.1.2
 author: course-scheduler
 license: MIT
 agent_created: true
@@ -69,7 +69,7 @@ Ask: "AI 分析推荐有两种执行方式，你选哪种？"
   - 成本：按次付费（市场价 ¥5/次，以运行前平台预估为准），需要用户有 LoomLoom 账户和余额
 
 **Cloud mode rules (mandatory):**
-1. **Collect the catalog FIRST, locally** — the cloud pipeline has NO web access. Before any cloud run, you (the local agent) MUST research the university's official handbook/catalog online (WebSearch / WebFetch), extract the relevant course catalog text (required courses, credits, prerequisites, meeting times if available), and provide it as the `course_catalog` input. Never submit a cloud run with an empty catalog — an empty catalog produces placeholder output and wastes the user's money.
+1. **Collect the catalog FIRST, locally** — the cloud pipeline has NO web access. Before any cloud run, you (the local agent) MUST follow `references/catalog-collection.md`: use WebSearch / WebFetch (or WebFetch + a free daily model for structuring, per the two-tier strategy) to collect the university's official catalog text, pass the quality gate (≥500 chars, ≥5 real courses), and provide it as the `course_catalog` input. Never submit a cloud run with an empty or failed catalog — it produces placeholder output and wastes the user's money. If collection fails, ask the user to paste their official 培养方案/handbook text instead.
 2. Use the LoomLoom CLI buyer flow (`loomloom market` / `loomloom run`) to execute through the Listing. Never reconstruct the pipeline locally in cloud mode — the user is paying for the standardized pipeline output.
 3. Before submitting any cloud run: show the platform's current fee estimate and obtain the user's **explicit confirmation in the current conversation**. No confirmation, no submission.
 4. If the user has no LoomLoom token/balance, guide them: `loomloom login` or the platform console recharge page, then retry.
