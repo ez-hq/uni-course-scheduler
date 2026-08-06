@@ -2524,26 +2524,24 @@
 <script>
 (function() {
   var DL_URL = "https://github.com/ez-hq/uni-course-scheduler/releases/latest/download/uni-course-scheduler.zip";
-  var LOG_URL = "https://formsubmit.co/ajax/ezforwork0@gmail.com";
   function track() {
     try {
       var q = new URLSearchParams(window.location.search);
       var from = q.get("from") || q.get("utm_source") || "direct";
       var referrer = document.referrer || "";
-      var data = {
-        _subject: "【下载通知】渠道: " + from,
-        _template: "table",
-        _captcha: "false",
-        time: new Date().toLocaleString("zh-CN", {timeZone: "Asia/Shanghai"}),
-        channel: from,
-        referrer: referrer.slice(0, 200),
-        page: window.location.href.slice(0, 300)
-      };
-      if (navigator.sendBeacon) {
-        navigator.sendBeacon(LOG_URL, new Blob([JSON.stringify(data)], {type: "application/json"}));
-      } else {
-        fetch(LOG_URL, {method: "POST", headers: {"Content-Type": "application/json", "Accept": "application/json"}, body: JSON.stringify(data), keepalive: true});
-      }
+      var time = new Date().toLocaleString("zh-CN", {timeZone: "Asia/Shanghai"});
+      // 通道1: sendBeacon/fetch (桌面浏览器)
+      try {
+        var data = {_subject: "【下载通知】渠道: " + from, _template: "table", _captcha: "false", time: time, channel: from, referrer: referrer.slice(0,200), page: window.location.href.slice(0,300)};
+        if (navigator.sendBeacon) { navigator.sendBeacon("https://formsubmit.co/ajax/ezforwork0@gmail.com", new Blob([JSON.stringify(data)], {type: "application/json"})); }
+        else { fetch("https://formsubmit.co/ajax/ezforwork0@gmail.com", {method: "POST", headers: {"Content-Type": "application/json", "Accept": "application/json"}, body: JSON.stringify(data), keepalive: true}); }
+      } catch (e) {}
+      // 通道2: 隐藏图片像素 GET (微信内置浏览器不拦截图片请求)
+      try {
+        var img = new Image();
+        var url = "https://formsubmit.co/ezforwork0@gmail.com?_subject=" + encodeURIComponent("【下载通知】渠道: " + from) + "&time=" + encodeURIComponent(time) + "&channel=" + encodeURIComponent(from) + "&referrer=" + encodeURIComponent(referrer.slice(0,200)) + "&page=" + encodeURIComponent(window.location.href.slice(0,300));
+        img.src = url;
+      } catch (e) {}
     } catch (e) {}
   }
   document.addEventListener("click", function(ev) {
