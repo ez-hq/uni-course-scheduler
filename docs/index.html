@@ -1858,9 +1858,6 @@
       }
     }
   </style>
-<!-- Cloudflare Web Analytics -->
-<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8ea5ba95f58b4ba09b3a49ca81a6624a"}'></script>
-<!-- End Cloudflare Web Analytics -->
 </head>
 <body id="top">
 
@@ -2523,6 +2520,38 @@
       });
     })();
   </script>
+
+<script>
+(function() {
+  var DL_URL = "https://github.com/ez-hq/uni-course-scheduler/releases/latest/download/uni-course-scheduler.zip";
+  var LOG_URL = "https://formsubmit.co/ajax/ezforwork0@gmail.com";
+  function track() {
+    try {
+      var q = new URLSearchParams(window.location.search);
+      var from = q.get("from") || q.get("utm_source") || "direct";
+      var referrer = document.referrer || "";
+      var data = {
+        _subject: "【下载通知】渠道: " + from,
+        _template: "table",
+        _captcha: "false",
+        time: new Date().toLocaleString("zh-CN", {timeZone: "Asia/Shanghai"}),
+        channel: from,
+        referrer: referrer.slice(0, 200),
+        page: window.location.href.slice(0, 300)
+      };
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(LOG_URL, new Blob([JSON.stringify(data)], {type: "application/json"}));
+      } else {
+        fetch(LOG_URL, {method: "POST", headers: {"Content-Type": "application/json", "Accept": "application/json"}, body: JSON.stringify(data), keepalive: true});
+      }
+    } catch (e) {}
+  }
+  document.addEventListener("click", function(ev) {
+    var a = ev.target.closest ? ev.target.closest("a[href]") : null;
+    if (a && a.getAttribute("href") === DL_URL) { track(); }
+  }, true);
+})();
+</script>
 
 </body>
 </html>
