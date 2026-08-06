@@ -1,85 +1,87 @@
-# 课程目录采集手册（本地 Agent 专用）
+# Catalog Collection (Local, Before Any Cloud Run)
 
-> 触发时机：用户选择「云端标准模式」后、提交任何云端运行**之前**。
-> 铁律：云端管道没有网络。目录文本是云端唯一的数据来源——**没有合格目录，禁止提交**（空跑 = 浪费用户的钱）。
+> Purpose: the LoomLoom cloud pipeline's `text-generate` steps have **no web
+> access**. Any cloud run that needs real course data MUST receive it as input.
+> This document defines how to collect and quality-gate the official catalog
+> locally, before spending the user's money on a cloud run.
 
----
+## Why
 
-## 一、采集目标
+Verified 2026-08: submitting a cloud run without a pre-collected catalog makes
+the model reply "无法查询" or emit unverified memory-based course codes
+(e.g. 60/100 rows with unverified codes, 40/100 empty shells in a real batch).
+Never repeat that.
 
-为工作簿的 Course Catalog 列产出一段**结构化目录文本**，包含该学校该专业该年级可修课程的：
+## Procedure
 
-- 课程代码、课程名称、学分、类型（必修/限选/通识/选修）
-- 先修要求、开课学期
-- 能查到的补充信息：考核方式、名额、难度口碑
+1. **Research the official catalog** with WebSearch / WebFetch, preferring the
+   university's own handbook / unit pages (e.g. `sydney.edu.au/units/*`,
+   `*handbook*` pages). Extract: course code, name, credits, session(s),
+   prerequisites, prohibitions, assessment summary.
 
-## 二、两级采集策略
+### BEFORE RETURNING EMPTY — 7-step search protocol (mandatory)
 
-### 策略 A：默认（质量优先）
+Never output an empty catalog, "not found", or "please paste the catalog" without
+first exhausting ALL of these sources, in this order:
 
-Agent 自己用 **WebSearch + WebFetch** 完成「查 + 整理」：
+1. **Official university handbook** — WebSearch: `<university> handbook <program>`
+2. **Faculty website** — `<faculty> course units <program>`
+3. **Program structure page** — `<university> <program> program structure`
+4. **Course handbook page** (per course) — `<course code> <university> handbook`
+5. **Prerequisites** — `<course code> prerequisites <university>`
+6. **Assessment** — `<course code> assessment <university>`
+7. **Timetable / class schedule** (per course, **MANDATORY**) — `<course code> <university> timetable 2026` or `<university> timetable <program>`
+   **Why this is MANDATORY**: the cloud pipeline's schedule step needs meeting times
+   (day, start_time, end_time) to generate a timetable. Without this data, it returns
+   a default timetable with only 1-2 sessions per course — the schedule will be
+   incomplete and marked `"default_timetable": true`. You would need to either
+   accept the default or collect timetable data locally after the run (which costs
+   the same ¥5, but the cloud run already paid).
+   **Collecting timetable data BEFORE the cloud run means one submission = one complete result.**
 
-1. **定位官方来源**：WebSearch 搜
-   - `<大学名> handbook <专业> <年份>`
-   - `<大学名> course catalog <major> first year`
-   - 中文大学：`<大学名> 培养方案 <专业> site:edu.cn 或学校官网域名`
-2. **只用官方来源**：学校 handbook / catalog / 教务公开页 / 培养方案 PDF。
-   禁止：论坛、中介、知乎、小红书、二手整理。
-3. **抓取正文**：WebFetch 打开 1-3 个官方页面，提取课程列表与先修信息。
-4. **整理输出**：按下文「输出格式」直接写成结构化文本。
+Only if ALL seven fail should you return empty or ask the user to paste the catalog.
 
-### 策略 B：省额度模式（用户主动提出省 token 时）
+This is a hard requirement: the cloud pipeline (or any downstream agent) can only
+work with the text you hand it. If you return empty without exhausting these six
+searches, the downstream pipeline will produce placeholder output and the user
+wastes money/time.
 
-Agent 只做「抓」，把「整理」交给 WorkBuddy 每日免费试用模型：
+2. **Quality gate — pass ALL of:**
+   - collected text ≥ 500 characters (Chinese or English)
+   - ≥ 5 real, named courses with codes (e.g. `CHEM1111`, `MATH1021`)
+   - **Timetable data present for 100% of target courses** (new courses without published timetable can be exempted with a `TBC` marker)
+     - Existence: each target course has ≥1 TIMETABLE entry
+     - Completeness: total TIMETABLE entries ≥ 2 × target course count (catches the "only 1 lecture, no lab" case)
+   - Catalog text is valid UTF-8 and contains no unprintable control characters (except \n, \t, \r)
+   - source URLs recorded for traceability
 
-1. Agent 用 WebFetch 抓官方页面**原始文本**（不做分析，省主 Agent token）
-2. 把原始文本 + 下方「整理提示词模板」发给用户当日可用的免费模型
-3. 免费模型产出结构化目录文本
-4. Agent 做**质量门禁检查**（见第三节），不合格则自己补查或请用户手动粘贴
+   **Timetable data format (must be in the catalog text)**:
+   ```
+   TIMETABLE:
+   BIOL1020 | Lecture | Monday | 10:00-11:00 | weeks 1-13
+   BIOL1020 | Tutorial | Wednesday | 10:00-11:00 | weeks 1-13
+   BIOL1020 | Practical | Friday | 09:00-12:00 | weeks 1-12
+   CHEM1100 | Lecture | Monday | 14:00-15:00 | weeks 1-13
+   CHEM1100 | Lab | Thursday | 13:00-16:00 | weeks 2,4,6,8,10,12
+   ```
+   Each line: `course_code | session_type | day | start_time-end_time | week_range`
 
-**整理提示词模板**（发给免费模型时用）：
+3. If the gate fails: try a second source (e.g. official unit pages, archived
+   handbooks). If still failing after all six searches, **ask the user to paste
+   their official 培养方案/handbook text** — do not proceed with an empty catalog.
+4. Structure the catalog as the `course_catalog` input for the cloud run
+   (one column per row in workbook mode, or the `course_catalog` field).
+5. Record the gate result and source URLs in the run notes.
 
-```
-你是课程目录整理员。下面是某大学官网的原始文本，请提取其中本科<年级><专业>
-可修课程的信息，按以下格式输出纯文本（找不到的字段写 NOT_FOUND，禁止编造）：
+## Two-tier strategy (optional, for large catalogs)
 
-- 课程代码 | 课程名称 | 学分 | 类型(必修/限选/通识/选修) | 开课学期 | 先修要求 | 备注
+If the raw catalog text is too large for a single cell or too messy to paste:
+- Tier 1: WebFetch the raw official text (local agent).
+- Tier 2: if structuring is needed, use a cheap/free model to summarize into
+  the canonical `code | name | credits | session | prereq | prohibition`
+  lines, then pass the structured text to the cloud run.
 
-只输出课程清单，不要评论。原文：
-<粘贴 WebFetch 抓回的原始文本>
-```
+## Rule
 
-## 三、质量门禁（提交云端前必须过）
-
-| 检查项 | 不合格处理 |
-|---|---|
-| 目录文本 ≥ 500 字符 | 不足 → 视为采集失败 |
-| 包含 ≥ 5 门真实课程（有代码+名称） | 不足 → 视为采集失败 |
-| 含毕业学分要求或学制结构说明 | 缺失 → 尽量补查，补不到在文本末尾注明 |
-| 全部来自官方来源 | 混入非官方信息 → 剔除 |
-
-**采集失败时**：明确告诉用户「官网公开信息不足，我已尝试 X/Y 来源。请把学校发的
-培养方案/选课手册文本（或 PDF 导出的文字）粘贴给我」，**绝不提交空目录或半空目录到云端**。
-
-## 四、输出格式（写入 Course Catalog 列的文本）
-
-```
-学校: <大学全称>
-专业: <专业> · <年级>
-教育体系: <学分制度>
-毕业学分要求: <总学分及构成，查不到写 NOT_FOUND>
-学制结构: <学期制/三学期制，每学期标准课数>
-
-课程清单:
-- 课程代码 | 课程名称 | 学分 | 类型 | 开课学期 | 先修要求 | 备注
-（8-15 门，优先必修课和热门先修课）
-
-先修链提示: <如 COMP10001 → COMP10002 → 大二核心课>
-注意事项: <该校选课坑点，查不到写 NOT_FOUND>
-数据来源: <官方 URL 1-3 个>
-```
-
-## 五、批量场景
-
-多名学生/多所学校：每行**独立采集、独立过门禁**。任何一行目录不合格，
-先把该行问题解决再整体提交——不要带着空行跑批量。
+Never submit a cloud run with an empty or failed catalog. It produces
+placeholder output and wastes the user's money.

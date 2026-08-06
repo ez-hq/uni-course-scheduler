@@ -61,26 +61,9 @@ cal.add("calscale", "GREGORIAN")
 cal.add("method", "PUBLISH")
 cal.add("x-wr-calname", vText(f"{meta['university']} {meta['major']} {meta.get('semester_info','').split(',')[0].strip()}"))
 
-# VTIMEZONE: assume Southern-hemisphere DST rules (1st Sun Oct on, 1st Sun Apr off).
-# For Northern-hemisphere universities, swap the DAYLIGHT/STANDARD months.
-from_off = timedelta(hours=10)
-to_off = timedelta(hours=11)
-tz = Timezone()
-tz.add("tzid", TIMEZONE_ID)
-dl = TimezoneDaylight()
-dl.add("tzoffsetfrom", from_off)
-dl.add("tzoffsetto", to_off)
-dl.add("tzname", "AEDT")
-dl.add("dtstart", vDatetime(datetime(1970, 10, 4, 2, 0)))
-dl.add("rrule", {"freq": "YEARLY", "bymonth": 10, "byday": "1SU"})
-tz.add_component(dl)
-st = TimezoneStandard()
-st.add("tzoffsetfrom", to_off)
-st.add("tzoffsetto", from_off)
-st.add("tzname", "AEST")
-st.add("dtstart", vDatetime(datetime(1971, 4, 4, 3, 0)))
-st.add("rrule", {"freq": "YEARLY", "bymonth": 4, "byday": "1SU"})
-tz.add_component(st)
+# VTIMEZONE: auto-generate from TZID using icalendar's zoneinfo integration.
+# Works for any IANA timezone (Northern/Southern hemisphere, with or without DST).
+tz = Timezone.from_tzid(TIMEZONE_ID)
 cal.add_component(tz)
 
 # --- Add events ---
