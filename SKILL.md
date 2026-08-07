@@ -10,7 +10,7 @@ description: >-
   for batch/institutional needs — requires catalog text input, see references/catalog-collection.md).
   LOCAL personal lightweight version (free, single-school single-student only,
   no batch pipeline, no standardized decision report).
-version: 2.5.1
+version: 2.5.2
 author: course-scheduler
 license: MIT
 agent_created: true
@@ -173,6 +173,8 @@ Before running `loomloom market quote --input-file <request.json>`:
     ✅ JSON 语法有效: python -c "import json; json.load(open('request.json'))"
     ✅ 必填字段: university_name, education_system, major, year_level, planning_mode,
        student_goal, course_catalog, semester_info 全部存在且非空
+    ✅ chosen_courses 处理: 只有当用户已选定课程（user_decided）时才填课程代码数组；
+       否则【省略该字段】——不要写成 null（平台会报 "field: null is not supported"）
     ✅ 枚举值有效: education_system 是 Listed 的枚举值之一 (Australian Credit Points 等)
     ✅ 无超长字段: 每个字段值 < 50000 字符 (防止管道截断)
     ✅ UTF-8 编码: 文件是有效的 UTF-8，无 BOM，无损坏字符
@@ -345,6 +347,41 @@ Use `scripts/generate_excel.py` with a JSON input file.
 Generate an `.ics` file for import into Apple Calendar / Google Calendar.
 Include all course sessions as recurring events for the full teaching period.
 Add 15-minute reminder alarms. Exclude break/flexibility weeks.
+
+## Cloud Output → Excel JSON Assembly (MANDATORY mapping — cloud mode only)
+
+The cloud run returns FOUR separate step outputs (stp_catalog / stp_recommend /
+stp_schedule / stp_decision). generate_excel.py and generate_ics.py expect ONE
+combined JSON. Assemble it with this EXACT mapping:
+
+```
+combined = {
+  "meta": {
+    "university": <stp_catalog.university>,
+    "major": <stp_catalog.major>,
+    "education_system": <stp_catalog.credit_system>,
+    "year_level": <from input row>,
+    "semester_info": <from input row>,
+    "semester_start": <parse from semester_info: "starts YYYY-MM-DD">,
+    "num_teaching_weeks": <parse from semester_info: "N teaching weeks">,
+    "student_preferences": <from input row student_goal>,
+    "timezone": "Australia/Sydney" (adjust per university country)
+  },
+  "course_overview": { "courses": <stp_catalog.courses> },
+  "recommendations": <stp_recommend>,          # whole object incl. recommendations[]
+  "weekly_schedule": <stp_schedule>            # whole object incl. schedule[]
+}
+```
+
+Rules:
+- If a step output is missing or failed, use the empty equivalent for that section
+  (the sheet is still generated with headers) and record the failure in meta.notes.
+- Each course in stp_catalog.courses may contain a "timetable" array (extracted by
+  cloud v5.11+) — generate_excel.py's Raw Schedule Database and Weekly Timetable
+  sheets consume it; if absent, sessions fall back to weekly_schedule.schedule.
+- Do NOT feed a single step output (e.g. stp_catalog alone) to generate_excel.py —
+  it reads course_overview/recommendations/weekly_schedule at the top level and
+  would produce an empty workbook.
 
 ## Excel JSON Input Format
 
