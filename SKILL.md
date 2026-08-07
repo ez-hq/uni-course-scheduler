@@ -10,7 +10,7 @@ description: >-
   for batch/institutional needs — requires catalog text input, see references/catalog-collection.md).
   LOCAL personal lightweight version (free, single-school single-student only,
   no batch pipeline, no standardized decision report).
-version: 2.5.0
+version: 2.5.1
 author: course-scheduler
 license: MIT
 agent_created: true
