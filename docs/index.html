@@ -2524,23 +2524,29 @@
 <script>
 (function() {
   var DL_URL = "https://github.com/ez-hq/uni-course-scheduler/releases/latest/download/uni-course-scheduler.zip";
+  var LOG_URL = "https://dl-tracker.emmaqizhou.workers.dev";
   function track() {
     try {
       var q = new URLSearchParams(window.location.search);
       var from = q.get("from") || q.get("utm_source") || "direct";
       var referrer = document.referrer || "";
-      var time = new Date().toLocaleString("zh-CN", {timeZone: "Asia/Shanghai"});
-      // 通道1: sendBeacon/fetch (桌面浏览器)
+      var data = {
+        from: from,
+        referrer: referrer.slice(0, 200),
+        page: window.location.href.slice(0, 300)
+      };
+      // 通道1: sendBeacon (桌面浏览器)
       try {
-        var data = {_subject: "【下载通知】渠道: " + from, _template: "table", _captcha: "false", time: time, channel: from, referrer: referrer.slice(0,200), page: window.location.href.slice(0,300)};
-        if (navigator.sendBeacon) { navigator.sendBeacon("https://formsubmit.co/ajax/ezforwork0@gmail.com", new Blob([JSON.stringify(data)], {type: "application/json"})); }
-        else { fetch("https://formsubmit.co/ajax/ezforwork0@gmail.com", {method: "POST", headers: {"Content-Type": "application/json", "Accept": "application/json"}, body: JSON.stringify(data), keepalive: true}); }
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon(LOG_URL, new Blob([JSON.stringify(data)], {type: "application/json"}));
+        } else {
+          fetch(LOG_URL, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(data), keepalive: true});
+        }
       } catch (e) {}
-      // 通道2: 隐藏图片像素 GET (微信内置浏览器不拦截图片请求)
+      // 通道2: 图片像素 GET (微信 WebView 不拦截图片请求；Worker 也接受带参数的 GET 记录)
       try {
         var img = new Image();
-        var url = "https://formsubmit.co/ezforwork0@gmail.com?_subject=" + encodeURIComponent("【下载通知】渠道: " + from) + "&time=" + encodeURIComponent(time) + "&channel=" + encodeURIComponent(from) + "&referrer=" + encodeURIComponent(referrer.slice(0,200)) + "&page=" + encodeURIComponent(window.location.href.slice(0,300));
-        img.src = url;
+        img.src = LOG_URL + "/track?from=" + encodeURIComponent(from) + "&ref=" + encodeURIComponent(referrer.slice(0,200)) + "&page=" + encodeURIComponent(window.location.href.slice(0,300));
       } catch (e) {}
     } catch (e) {}
   }
