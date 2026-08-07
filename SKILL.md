@@ -181,8 +181,35 @@ Before running `loomloom market quote --input-file <request.json>`:
 
     **Only proceed to `loomloom market quote` when ALL checks pass (pre-flight + JSON validation).**
 
+1a2. **User confirmation loop (MANDATORY — before quote, before fee confirmation)**:
+    After the catalog passes the quality gate and pre-flight validation, BEFORE
+    running `loomloom market quote`, present the collection summary to the user
+    and obtain explicit confirmation of the DATA (this is separate from fee
+    confirmation in rule 3):
+    - Show the user: course codes + names collected, source URLs used,
+      quality-gate results (chars / course count / timetable coverage),
+      and any NOT_FOUND / TBC items.
+    - Ask: "以上课程目录来自官方来源（来源链接已记录）。确认无误后提交云端（¥0.5/次）？
+      如有缺漏请告诉我，我会补充后再提交。"
+    - If user confirms → proceed to quote + fee confirmation (rule 3).
+    - If user reports missing/wrong courses → re-collect the specific courses,
+      re-run the quality gate, show the updated summary, and ask again. Loop until
+      the user confirms or abandons the cloud run.
+    - If collection found nothing / gate failed → do NOT show a fake summary;
+      tell the user honestly and ask them to paste their official handbook text.
+
 2. Use the LoomLoom CLI buyer flow (`loomloom market` / `loomloom run`) to execute
    through the Listing. Never reconstruct the pipeline locally in cloud mode.
+1b. **user_decided mode — agent fills the chosen-courses column (MANDATORY)**:
+    When planning_mode = "user_decided" (the user has chosen their own courses):
+    - The cloud pipeline needs to know WHICH courses the user chose (the
+      chosen-courses column). Do NOT require the user to know this column exists.
+    - Extract the chosen course codes from the user's request/conversation; if the
+      user has not explicitly listed codes, ask: "你决定选哪几门课？请告诉我课程代码。"
+    - Write the codes into the chosen-courses column before submitting to the cloud.
+    - NEVER submit user_decided with an empty chosen-courses column — the cloud
+      pipeline will mark it "partial" and return an empty result, wasting ¥0.5.
+    - If the user cannot decide, suggest switching to ai_recommend mode instead.
 3. Before submitting any cloud run: show the platform's current fee estimate and
    obtain the user's **explicit confirmation in the current conversation**. No
    confirmation, no submission.

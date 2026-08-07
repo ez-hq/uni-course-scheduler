@@ -46,9 +46,14 @@ work with the text you hand it. If you return empty without exhausting these six
 searches, the downstream pipeline will produce placeholder output and the user
 wastes money/time.
 
-2. **Quality gate — pass ALL of:**
+2. **Quality gate — pass ALL of (mode-aware, matching cloud v5.8 semantics):**
    - collected text ≥ 500 characters (Chinese or English)
-   - ≥ 5 real, named courses with codes (e.g. `CHEM1111`, `MATH1021`)
+   - Course count (MODE-AWARE):
+     - planning_mode = `ai_recommend`: ≥ 5 real, named courses with codes
+       (e.g. `CHEM1111`, `MATH1021`)
+     - planning_mode = `user_decided`: ≥ 1 real course with a code — the user's
+       own selection IS a complete input; a short list of 1-4 chosen courses
+       is NOT "truncated" and must NOT be treated as a gate failure
    - **Timetable data present for 100% of target courses** (new courses without published timetable can be exempted with a `TBC` marker)
      - Existence: each target course has ≥1 TIMETABLE entry
      - Completeness: total TIMETABLE entries ≥ 2 × target course count (catches the "only 1 lecture, no lab" case)
@@ -72,6 +77,31 @@ wastes money/time.
 4. Structure the catalog as the `course_catalog` input for the cloud run
    (one column per row in workbook mode, or the `course_catalog` field).
 5. Record the gate result and source URLs in the run notes.
+
+### User confirmation loop (MANDATORY — before any cloud submission)
+
+After the catalog passes the quality gate, BEFORE running `loomloom market quote`
+or requesting fee confirmation, present a collection summary to the user:
+
+1. **Show what was collected**: course codes + names, the source URLs used,
+   quality-gate results (chars / course count / timetable coverage), and any
+   NOT_FOUND / TBC items.
+2. **Ask**: "以上课程目录来自官方来源（来源链接已记录）。确认无误后提交云端（¥0.5/次）？
+   如有缺漏请告诉我，我会补充后再提交。"
+3. **User confirms** → proceed to quote + fee confirmation.
+4. **User reports missing/wrong courses** → re-collect those courses, re-run the
+   gate, show the updated summary, ask again. Loop until confirmed or abandoned.
+5. **Collection failed / gate failed** → do NOT show a fake summary; tell the user
+   honestly and ask them to paste their official handbook text.
+
+### user_decided mode — chosen-courses column (agent fills it, MANDATORY)
+
+When planning_mode = `user_decided`:
+- Extract the chosen course codes from the user's request/conversation (or ask
+  "你决定选哪几门课？请告诉我课程代码。").
+- Write them into the chosen-courses column before submitting to the cloud.
+- NEVER submit user_decided with an empty chosen column — the cloud pipeline will
+  mark it `partial` and return an empty result, wasting the user's money.
 
 ## Two-tier strategy (optional, for large catalogs)
 
