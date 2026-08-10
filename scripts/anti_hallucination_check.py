@@ -27,8 +27,8 @@ KNOWN_CROSS_UNIVERSITY = {
 }
 
 def extract_codes(text):
-    """提取形如 ABC1234 的课程代码"""
-    return set(re.findall(r'\b([A-Z]{3,4}\d{4})\b', text.upper()))
+    """提取形如 ABC1234 (4位) 或 COMP90038 (5位) 的课程代码"""
+    return set(re.findall(r'\b([A-Z]{3,4}\d{4,5})\b', text.upper()))
 
 def parse_timetable_block(input_catalog_text):
     """解析 TIMETABLE 段为记录列表 [(code, type, day, start, end)]"""
@@ -41,7 +41,7 @@ def parse_timetable_block(input_catalog_text):
         if not line or line.startswith('#'):
             continue
         m = re.match(
-            r'([A-Z]{3,4}\d{4})\s*\|\s*(\w+)\s*\|\s*(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s*\|\s*(\d{2}:\d{2})-(\d{2}:\d{2})',
+            r'([A-Z]{3,4}\d{4,5})\s*\|\s*(\w+)\s*\|\s*(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s*\|\s*(\d{2}:\d{2})-(\d{2}:\d{2})',
             line, re.IGNORECASE)
         if m:
             records.append((m.group(1).upper(), m.group(2), m.group(3), m.group(4), m.group(5)))
@@ -75,7 +75,7 @@ def anti_hallucination_check(output_json, input_catalog_text, context="decision"
             for i, v in enumerate(obj):
                 walk(v, f"{path}[{i}]")
         elif isinstance(obj, str):
-            if re.match(r'^[A-Z]{3,4}\d{4}$', obj.strip()) and obj.strip().upper() in phantom:
+            if re.match(r'^[A-Z]{3,4}\d{4,5}$', obj.strip()) and obj.strip().upper() in phantom:
                 violations.append(f"{path}: 编造课程代码出现在字段值中")
     walk(output_json)
 
