@@ -617,6 +617,65 @@ def create_raw_schedule(wb, data):
         ])
 
 
+# ─── Sheet 7: Degree Audit & Risk Assessment (cloud-only) ─────────────────────
+
+def create_degree_audit(wb, data):
+    """Create the Degree Audit & Risk Assessment sheet (cloud-only, additive).
+    Populated from combined.degree_audit (cloud stp_deg_audit output).
+    If absent, creates headers only — never breaks existing 6-sheet behavior."""
+    ws = wb.create_sheet("Degree Audit & Risk Assessment")
+    audit = data.get("degree_audit", {}) or {}
+
+    headers = ["Item", "Detail", "Severity"]
+    ws.append(headers)
+    for c, h in enumerate(headers, 1):
+        cell = ws.cell(1, c)
+        cell.font = Font(bold=True, color="FFFFFF")
+        cell.fill = PatternFill("solid", fgColor="8B0000")
+
+    # Credit progress
+    total = audit.get("total_credits_planned")
+    note = audit.get("credit_progress_note", "—")
+    ws.append(["Credit Progress", f"Total planned: {total} | {note}" if total else note, ""])
+
+    # Prerequisite issues
+    ws.append(["Prerequisite Issues", "", ""])
+    for issue in audit.get("prerequisite_issues", []):
+        ws.append([issue.get("course_code", ""),
+                   "Missing prereqs: " + ", ".join(issue.get("missing_prereqs", [])),
+                   issue.get("severity", "Medium")])
+
+    # Overload weeks
+    ws.append(["Overload Weeks", "", ""])
+    for ow in audit.get("overload_weeks", []):
+        ws.append(["Week " + str(ow.get("week", "")),
+                   ", ".join(ow.get("courses", [])) + (" | " + ow.get("risk", "") if ow.get("risk") else ""),
+                   "High"])
+
+    # Sequence alerts
+    ws.append(["Sequence Alerts", "", ""])
+    for sa in audit.get("sequence_alerts", []):
+        ws.append([sa.get("course_code", ""), sa.get("alert", ""), sa.get("severity", "Medium")])
+
+    # Summary
+    if audit.get("summary"):
+        ws.append(["Summary", audit.get("summary"), ""])
+
+    # Color severity
+    for row in ws.iter_rows(min_row=2):
+        sev = row[2].value if len(row) > 2 else None
+        if sev == "High":
+            for cell in row:
+                cell.fill = PatternFill("solid", fgColor="FCEBEB")
+        elif sev == "Medium":
+            for cell in row:
+                cell.fill = PatternFill("solid", fgColor="FAEEDA")
+
+    ws.column_dimensions["A"].width = 22
+    ws.column_dimensions["B"].width = 60
+    ws.column_dimensions["C"].width = 12
+
+
 # ─── Main ──────────────────────────────────────────────────────────────────
 
 
@@ -629,19 +688,21 @@ def generate_workbook(input_path, output_path):
     # Remove default sheet
     wb.remove(wb.active)
 
-    # Create 6 sheets in order
+    # Create sheets in order
     create_course_overview(wb, data)
     create_degree_planner(wb, data)
     create_ai_recommendations(wb, data)
     create_weekly_timetable(wb, data)
     create_academic_calendar(wb, data)
     create_raw_schedule(wb, data)
+    # Sheet 7: Degree Audit (cloud-only, additive; headers-only if no data)
+    create_degree_audit(wb, data)
 
     # Save
     wb.save(output_path)
     print(f"Excel workbook generated: {output_path}")
     print(f"Sheets: Course Overview, Degree Planner, AI Recommendations, "
-          f"Weekly Timetable, Academic Calendar, Raw Schedule Database")
+          f"Weekly Timetable, Academic Calendar, Raw Schedule Database, Degree Audit & Risk Assessment")
 
     # Summary
     total_courses = len(data.get("course_overview", {}).get("courses", []))

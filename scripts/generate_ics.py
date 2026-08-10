@@ -28,7 +28,17 @@ with open(INPUT, "r", encoding="utf-8") as f:
     data = json.load(f)
 
 meta = data["meta"]
-schedule = data["weekly_schedule"]["schedule"]
+
+# Data source: prefer cloud stp_icsgen output (combined["ics"]), else fall back
+# to weekly_schedule (local mode). This keeps existing behavior while enabling
+# cloud-driven ICS generation.
+ico = data.get("ics") or {}
+if ico and ico.get("events"):
+    schedule = ico["events"]
+    # cloud provides meta overrides
+    meta = {**meta, **ico.get("meta", {})}
+else:
+    schedule = data["weekly_schedule"]["schedule"]
 
 WEEK1_MONDAY = date.fromisoformat(meta["semester_start"])
 NUM_WEEKS = int(meta.get("num_teaching_weeks", 13))
