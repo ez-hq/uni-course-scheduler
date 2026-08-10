@@ -1239,6 +1239,44 @@
       margin-top: var(--space-2);
     }
 
+    .install-simple-code-inline {
+      display: inline-block;
+      background-color: var(--bg-dark);
+      color: #93C5FD;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', 'Courier New', monospace;
+      font-size: 0.9em;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    .install-lead {
+      font-size: var(--fs-body);
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin: var(--space-2) auto 0;
+      line-height: 1.6;
+    }
+
+    .install-tip {
+      font-size: var(--fs-small);
+      color: var(--text-secondary);
+      max-width: 640px;
+      margin: var(--space-5) auto 0;
+      line-height: 1.6;
+      padding: var(--space-3) var(--space-4);
+      background-color: var(--bg-secondary);
+      border-radius: var(--radius-md);
+    }
+
+    .install-tip code {
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', 'Courier New', monospace;
+      font-size: 0.9em;
+      background-color: var(--bg-dark);
+      color: #93C5FD;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
     /* ========================================
        13C. CLOUD VALUE PROPOSITION
        ======================================== */
@@ -2198,29 +2236,30 @@
         <div class="section-header" data-animate>
           <span class="micro-label">QUICK INSTALL</span>
           <h2 class="section-title">三步装好，就能用</h2>
+          <p class="install-lead">不用找文件夹、不用输命令行、不用解压到指定位置——把 Skill 交给 AI，它自己会装。</p>
         </div>
         <div class="install-simple">
           <div class="install-simple-step" data-animate>
             <div class="install-simple-num">1</div>
             <div class="install-simple-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
             <h3 class="install-simple-title">点下方按钮下载</h3>
-            <p class="install-simple-desc">下载 ZIP 包，解压到任意位置，记住解压后的文件夹路径</p>
+            <p class="install-simple-desc">把 ZIP 包下载到电脑上，放着别动，不用解压</p>
           </div>
           <div class="install-simple-step" data-animate>
             <div class="install-simple-num">2</div>
             <div class="install-simple-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
-            <h3 class="install-simple-title">把文件夹拖到这里</h3>
-            <p class="install-simple-desc">复制解压出来的 uni-course-scheduler 文件夹，粘贴到下面这个路径</p>
-            <span class="install-simple-code">~/.workbuddy/skills/</span>
+            <h3 class="install-simple-title">把文件拖进对话框说一句话</h3>
+            <p class="install-simple-desc">打开任意 AI 助手（WorkBuddy、Claude Code、Codex、Cursor…都行），把 ZIP 文件直接拖进对话框（或点“添加附件”选中它），然后输入：</p>
+            <span class="install-simple-code">帮我安装这个选课排课 Skill</span>
           </div>
           <div class="install-simple-step" data-animate>
             <div class="install-simple-num">3</div>
             <div class="install-simple-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.08-2.91a2.18 2.18 0 0 0-2.91-.08zM12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div>
-            <h3 class="install-simple-title">打开 WorkBuddy 就能用</h3>
-            <p class="install-simple-desc">在 WorkBuddy 输入框里输入下面这行字，回车即可开始选课</p>
-            <span class="install-simple-code">/uni-course-scheduler</span>
+            <h3 class="install-simple-title">开始选课</h3>
+            <p class="install-simple-desc">装好后，WorkBuddy 输入 <span class="install-simple-code-inline">/uni-course-scheduler</span> 回车；其他 AI 助手直接说「我想选课排课」即可。AI 会自动解压、装好，并告诉你“装好了”。</p>
           </div>
         </div>
+        <p class="install-tip">小提示：不同平台对拖放的支持略有差异，若拖不进就选“添加附件”；如果 AI 说看不到附件，就把 ZIP 解压，把解压出来的 <code>uni-course-scheduler</code> 文件夹拖进对话框即可。刚装完先新开一个对话 / 刷新一下，AI 才能识别到这个 Skill。</p>
         <div class="platform-tags">
           <span class="platform-tag">WorkBuddy</span>
           <span class="platform-tag">Claude Code</span>
