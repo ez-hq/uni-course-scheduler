@@ -10,11 +10,39 @@ description: >-
   for batch/institutional needs — requires catalog text input, see references/catalog-collection.md).
   LOCAL personal lightweight version (free, single-school single-student only,
   no batch pipeline, no standardized decision report).
-version: 2.5.3
+version: 2.5.4
 author: course-scheduler
 license: MIT
 agent_created: true
 ---
+
+## Feature Flags (MANDATORY — read first, before any other step)
+
+Experimental user-category support is gated behind feature flags. The existing
+undergraduate workflow is PRODUCTION-CRITICAL and must NEVER be altered.
+
+**Current flag state:**
+```
+UNDERGRADUATE_CORE   = ON
+GRADUATE_COURSEWORK  = OFF
+EXCHANGE             = OFF
+DOUBLE_DEGREE        = OFF
+MAJOR_MINOR          = OFF
+TRANSFER             = OFF
+```
+
+**Routing rule (decide BEFORE Step 1):**
+1. UNDERGRADUATE_CORE is always ON — the existing undergraduate workflow is the
+   default engine and is never disabled.
+2. For a user whose academic type maps to a flag that is ON, use the corresponding
+   additive layer (e.g. GRADUATE_COURSEWORK=ON → graduate roadmap). The additive
+   layer only ADDS to the existing engine; it never replaces the core scheduler,
+   Excel 6-sheet structure, scheduling logic, or anti-hallucination checks.
+3. For a user whose type maps to a flag that is OFF, route through the existing
+   V1 workflow (translate their input to existing enums, e.g. year_level="Master").
+4. If a flag is missing, invalid, or cannot be read: treat it as OFF, EXCEPT
+   UNDERGRADUATE_CORE which defaults to ON. Fail safe — never let an experimental
+   feature activate because of a configuration error.
 
 # University Course Planner
 
