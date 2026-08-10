@@ -47,6 +47,14 @@ Ask: "你是什么年级？什么时候入学？"
 Examples: 大一新生 Term 1 2027, Year 2 Semester 1, etc.
 Also ask about special calendar systems (trimester, quarter, etc.).
 
+**Year Level Enum Mapping (MANDATORY — map the user's academic context to the cloud `year_level` enum):**
+The cloud pipeline only accepts these exact values for `year_level`. Always map what the user says to one of them:
+- Undergraduate freshmen/sophomore/junior/senior → `"Year 1"` / `"Year 2"` / `"Year 3"` / `"Year 4"`
+- Graduate Coursework (taught Master) → `"Master"`
+- Exchange / Double-degree / Transfer / Part-time → base on their current year level in their home degree track (`"Year 1"`–`"Year 4"` for undergraduate-track, `"Master"` for postgraduate-track)
+- Unknown / ambiguous → ask the user to clarify which year level they are in before proceeding
+Never invent a free-text value like "Year 1 (Master)" or "Graduate Year 1" — it will fail cloud validation. Use exactly `"Year 1"`, `"Year 2"`, `"Year 3"`, `"Year 4"`, or `"Master"`.
+
 ### Step 5: Planning Mode
 Ask: "你希望我怎么帮你选课？"
 - **A: AI 推荐模式** — Agent researches courses, recommends, and schedules (recommended for freshmen)
