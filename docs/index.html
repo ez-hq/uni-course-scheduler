@@ -343,6 +343,20 @@
       color: var(--info);
     }
 
+    .hero-version {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: var(--space-3);
+      font-size: var(--fs-small);
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .hero-version svg {
+      flex-shrink: 0;
+      color: var(--primary);
+    }
+
     /* ========================================
        8. SCHEDULE CARD (Hero Visual)
        ======================================== */
@@ -1931,6 +1945,11 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             <span>云端任务 ¥0.5/次，每次执行前都会确认。不编造课程信息，查不到的字段会提示你补充。</span>
           </p>
+          <p class="hero-version" data-animate>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;margin-right:5px;"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            当前最新版 <strong id="latest-version" style="font-weight:700;color:var(--primary);">…</strong>
+            <span style="opacity:.75;font-size:13px;">下载按钮始终指向最新版</span>
+          </p>
         </div>
 
         <div class="hero-visual" data-animate>
@@ -2593,6 +2612,23 @@
     var a = ev.target.closest ? ev.target.closest("a[href]") : null;
     if (a && a.getAttribute("href") === DL_URL) { track(); }
   }, true);
+
+  // 动态显示当前最新版本号（从 GitHub latest release 获取）
+  function loadLatestVersion() {
+    var el = document.getElementById("latest-version");
+    if (!el) return;
+    fetch("https://api.github.com/repos/ez-hq/uni-course-scheduler/releases/latest", {headers: {"Accept": "application/vnd.github+json"}})
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d && d.tag_name) {
+          el.textContent = d.tag_name;
+        } else {
+          el.textContent = "v2.5.6";
+        }
+      })
+      .catch(function() { el.textContent = "v2.5.6"; });
+  }
+  loadLatestVersion();
 })();
 </script>
 
