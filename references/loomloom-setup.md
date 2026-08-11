@@ -3,38 +3,60 @@
 ## LoomLoom 是什么？
 
 LoomLoom 是批量 LLM 云端执行平台，把结构化任务并行跑在固定管道里，
-返回结构化结果。本 Skill 的「云端标准模式」通过 LoomLoom 市场上的
-SkillBot「大学选课排课助手」执行。
+返回结构化结果。本 Skill 的「云端标准模式」通过 LoomLoom 市场执行。
+
+本 Skill 支持**两个云端平台**，按你的支付方式选择（详见下方"选哪个平台"）：
+
+## 选哪个平台？（首次使用必读）
+
+同一个 Skill 可以连两个平台，用哪一个由**你的支付方式**决定，不是按国籍/IP：
+
+| | **胜算云（中国大陆）** | **CogFoundry（国际）** |
+|---|---|---|
+| 支付方式 | 中国大陆支付（支付宝 / 微信 / 银联） | 国外信用卡（Visa / Mastercard） |
+| 价格 | ¥0.5 / 次 | $0.10 / 次 |
+| 服务地址 | `https://loomloom.shengsuanyun.com/loom/v1` | `https://loomloom.cogfoundry.ai/loom/v1` |
+| 密钥申请 | console.shengsuanyun.com | CogFoundry 控制台 |
+| token 变量 | `LOOMLOOM_TOKEN_SHENGSUANYUN` | `LOOMLOOM_TOKEN_COGFOUNDRY` |
+
+> **怎么选**：你能用中国大陆支付 → 用胜算云；你能用国外信用卡 → 用 CogFoundry。
+> 不确定能充哪个 → 两个都看，选你实际能充值的那一个。
 
 ## 安装 LoomLoom
 
 ### 方式 A：一句话安装（推荐）
 
-把这段话粘贴给任意 AI 助手：
+把下面这段话粘贴给任意 AI 助手（**把平台地址换成你上面选的那一个**）：
 
 > 请你在这个项目里安装 LoomLoom：安装地址是
 > https://github.com/Cogfoundry-ai/loomloom 或
 > https://gitee.com/cogfoundry/loomloom
-> 服务地址：https://loomloom.shengsuanyun.com/loom/v1
-> Token 是【替换成你自己的胜算云密钥】。
+> 服务地址：【你选平台的 server，见上表】
+> Token 是【你选平台上申请的密钥】。
 > 安装好之后帮我运行一次 doctor 检查是否正常。
 
 ### 方式 B：手动安装
 
-1. 在 https://console.shengsuanyun.com/user/keys 申请 API 密钥
+1. 按上表去你选平台的**控制台申请 API 密钥**（胜算云：console.shengsuanyun.com；CogFoundry：CogFoundry 控制台）
 2. 克隆仓库并按 README 安装：
    ```bash
    git clone https://gitee.com/cogfoundry/loomloom.git
    ```
-3. 在 `~/.zshrc` 或 `~/.bashrc` 配置环境变量：
-   ```bash
-   export LOOMLOOM_SERVER='https://loomloom.shengsuanyun.com/loom/v1'
-   export LOOMLOOM_TOKEN='your-shengsuanyun-api-key'
-   ```
-4. 验证：
+3. 在 `~/.zshrc` 或 `~/.bashrc` 配置环境变量（**用你选那行的 server 和 token 变量名**）：
+   - 胜算云（中国大陆支付）：
+     ```bash
+     export LOOMLOOM_SERVER='https://loomloom.shengsuanyun.com/loom/v1'
+     export LOOMLOOM_TOKEN_SHENGSUANYUN='your-shengsuanyun-api-key'
+     ```
+   - CogFoundry（国外信用卡）：
+     ```bash
+     export LOOMLOOM_SERVER='https://loomloom.cogfoundry.ai/loom/v1'
+     export LOOMLOOM_TOKEN_COGFOUNDRY='your-cogfoundry-api-key'
+     ```
+4. 验证（用你选平台的 server）：
    ```bash
    source ~/.zshrc
-   loomloom doctor
+   loomloom doctor -s "$LOOMLOOM_SERVER"
    ```
 
 ## 没有 LoomLoom 也能用

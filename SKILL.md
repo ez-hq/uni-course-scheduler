@@ -5,12 +5,13 @@ description: >-
   recommends courses based on student goals, generates optimized weekly
   schedules with enrollment priority markers, and exports Excel + ICS calendar.
   Supports international education systems (US/AU/UK/ECTS/CN).
-  Execution: CLOUD standard mode (¥0.5/次, production, batch multi-school runs,
-  fixed 4-step pipeline, standardized decision report; recommended & default route
-  for batch/institutional needs — requires catalog text input, see references/catalog-collection.md).
+  Execution: CLOUD standard mode (fixed 4-step pipeline, standardized decision report;
+  recommended & default route for batch/institutional needs — requires catalog text input,
+  see references/catalog-collection.md). Two cloud platforms by payment method:
+  胜算云 (CNY ¥0.5/次, China payment) or CogFoundry (USD $0.10/次, international credit card).
   LOCAL personal lightweight version (free, single-school single-student only,
   no batch pipeline, no standardized decision report).
-version: 2.5.6
+version: 2.5.7
 author: course-scheduler
 license: MIT
 agent_created: true
@@ -106,7 +107,17 @@ Ask: "AI 分析推荐有两种执行方式，你选哪种？批量 / 多所学�
   - 输出标准化决策报告（8 维评分 + 选课理由 + 风险提示 + 调整建议）。
   - 数据来源：云端步骤无网络访问，**必须先由本地 Agent 联网采集官方目录文本**（见 `references/catalog-collection.md`），或买家手动粘贴官方培养方案文本。目录越完整，输出越可靠。
   - 适用于：机构 / 批量（>20 人）/ 需要标准化决策报告 / 一次多所学校。
-  - 成本：¥0.5/次 + 平台模型成本，运行前显示预估，确认后才扣费。
+  - 成本：¥0.5/次（中国·胜算云）或 $0.10/次（国际·CogFoundry）+ 平台模型成本，运行前显示预估，确认后才扣费。
+- **支付方式 → 云端平台路由 (MANDATORY — ask BEFORE first cloud run, then remember)**:
+  The same skill serves two cloud platforms. Decide which one a user uses by their
+  payment method, NOT by IP or nationality:
+  1. Ask the user once (first cloud run): "你的支付方式是中国大陆支付（支付宝/微信/银联），还是国外信用卡（Visa/Mastercard）？"
+     - 中国大陆支付 → route to **胜算云** (shengsuanyun): server `https://loomloom.shengsuanyun.com/loom/v1`, token `LOOMLOOM_TOKEN_SHENGSUANYUN`, fixed fee ¥0.5/次.
+     - 国外信用卡 → route to **CogFoundry**: server `https://loomloom.cogfoundry.ai/loom/v1`, token `LOOMLOOM_TOKEN_COGFOUNDRY`, fixed fee $0.10/次.
+  2. Set the matching `LOOMLOOM_SERVER` (and use the matching token env var) for all subsequent cloud commands.
+  3. Remember the choice for the session (do not re-ask every run; re-ask only if the user says their payment changed).
+  4. The cloud commands themselves are identical (`loomloom market quote/run`); only the server/token differs by platform.
+  5. If the user is unsure which they can pay with, show both options and let them choose the one they can fund.
 - **本地个人轻量版（免费 · 仅限单人单校）** — 我（当前 agent）联网检索官方课程信息、逐条核实后完成推荐排课。
   - 优点：免费、数据经过官方来源核实、格式统一（6-sheet Excel + ICS）
   - 限制：每次只处理 1 所学校、单人交互式精修；**不提供批量管道与标准化决策报告**；仅适用于个人自用。
