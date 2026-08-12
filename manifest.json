@@ -1,0 +1,25 @@
+{
+  "name": "uni-course-scheduler",
+  "id": "uni-course-scheduler",
+  "version": "2.6.0",
+  "description": "AI-powered university course planning assistant. Analyzes course catalogs, recommends courses based on student goals, generates conflict-free weekly timetables with enrollment priority markers, and exports Excel + ICS calendar files. Supports international education systems (US/AU/UK/ECTS/CN).",
+  "author": "ez-hq",
+  "license": "LicenseRef-Personal-Use",
+  "homepage": "https://ez-hq.github.io/uni-course-scheduler/",
+  "repository": "https://github.com/ez-hq/uni-course-scheduler",
+  "tags": [
+    "university",
+    "course-planner",
+    "timetable",
+    "course-scheduler",
+    "education",
+    "ai-agent",
+    "claude-skills"
+  ],
+  "skills": {
+    "uni-course-scheduler": {
+      "path": "SKILL.md",
+      "description": "Catalog analysis, course recommendation, weekly timetable, Excel + ICS export. Cloud (paid, batch) or local (free, personal) dual mode."
+    }
+  }
+}
