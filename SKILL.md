@@ -11,7 +11,7 @@ description: >-
   胜算云 (CNY ¥0.5/次, China payment) or CogFoundry (USD $0.10/次, international credit card).
   LOCAL personal lightweight version (free, single-school single-student only,
   no batch pipeline, no standardized decision report).
-version: 2.5.7
+version: 2.5.8
 author: course-scheduler
 license: MIT
 agent_created: true
