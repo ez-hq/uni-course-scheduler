@@ -1,0 +1,13 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Course Planning",
+      "description": "University course planning: catalog analysis, recommendations, timetables, Excel + ICS export.",
+      "skills": [
+        "uni-course-scheduler"
+      ]
+    }
+  ]
+}
