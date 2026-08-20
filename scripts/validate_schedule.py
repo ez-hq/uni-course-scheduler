@@ -114,20 +114,54 @@ def check_daily_density(schedule):
     return len(issues) == 0, issues
 
 
+# Typical per-semester credit ranges by education system (see SKILL.md Step 2:
+# "This determines credit calculation" + references/local-validation.md).
+SYSTEM_CREDIT_RANGES = {
+    "Australian Credit Points": (6, 60),  # UQ ~8 units, USyd 24, Melbourne 4×12.5=50
+    "ECTS":                     (20, 40),   # common 30
+    "US Credits":               (10, 20),
+    "UK Credits":               (40, 90),   # CATS ~60/semester
+    "Chinese Credits":          (12, 30),
+    "Canadian Credits":         (10, 20),
+    "Singapore Modular Credits": (8, 25),
+    "Hong Kong Credits":        (12, 30),
+    "Other":                    (10, 80),   # unknown -> fall back to broad range
+}
+_NOT_FOUND_VALUES = {"NOT_FOUND", "N/A", "MISSING", "UNKNOWN", "TBD", ""}
+
+
 def check_credit_total(courses):
-    """Check total credits are reasonable."""
+    """Check total credits are reasonable — system-aware instead of hard-coded 10-80.
+
+    Uses each course's credit_system (written into Course Overview column E) to
+    pick the typical per-semester range. Unknown/mixed systems degrade to a
+    warning instead of failing, so the validator never blocks valid output for
+    an unrecognized system.
+    """
     total = 0
+    systems = set()
     for c in courses:
         credits = c.get("credits", 0)
         try:
             total += float(credits)
         except (ValueError, TypeError):
             continue
+        cs = c.get("credit_system")
+        if cs and cs not in _NOT_FOUND_VALUES:
+            systems.add(cs)
     if total == 0:
         return True, ["No credits found (acceptable for empty catalog)"]
-    if total < 10 or total > 80:
-        return False, [f"Total credits {total} outside typical range (10-80)"]
-    return True, [f"Total credits: {total}"]
+    if len(systems) == 1:
+        system = next(iter(systems))
+        lo, hi = SYSTEM_CREDIT_RANGES.get(
+            system, SYSTEM_CREDIT_RANGES["Other"])
+        if lo <= total <= hi:
+            return True, [f"Total credits: {total} ({system})"]
+        return False, [f"Total credits {total} outside typical range "
+                       f"({lo}-{hi}) for {system}"]
+    # No / multiple systems -> warn instead of fail (manual check advised).
+    sys_txt = ", ".join(sorted(systems)) if systems else "unknown"
+    return True, [f"Total credits: {total} (system: {sys_txt} — manual check advised)"]
 
 
 def check_required_coverage(courses):
