@@ -18,8 +18,13 @@ import json
 import sys
 from datetime import datetime, date, timedelta, timezone
 
-from icalendar import (Calendar, Event, Alarm, vText, vDatetime, vDuration,
-                       Timezone, TimezoneStandard, TimezoneDaylight)
+try:
+    from icalendar import (Calendar, Event, Alarm, vText, vDatetime, vDuration,
+                           Timezone, TimezoneStandard, TimezoneDaylight)
+except ImportError:
+    print("ERROR: icalendar is required to generate the .ics calendar file.")
+    print("Install it with:  pip install icalendar pytz")
+    sys.exit(1)
 
 INPUT = sys.argv[1] if len(sys.argv) > 1 else "plan.json"
 OUTPUT = sys.argv[2] if len(sys.argv) > 2 else "course_schedule.ics"

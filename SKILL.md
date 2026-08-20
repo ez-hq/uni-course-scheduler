@@ -11,7 +11,7 @@ description: >-
   胜算云 (CNY ¥0.5/次, China payment) or CogFoundry (USD $0.10/次, international credit card).
   LOCAL personal lightweight version (free, single-school single-student only,
   no batch pipeline, no standardized decision report).
-version: 2.6.0
+version: 2.6.1
 author: course-scheduler
 license: LicenseRef-Personal-Use
 agent_created: true
@@ -235,6 +235,16 @@ Before running `loomloom market quote --input-file <request.json>`:
     running `loomloom market quote`, present the collection summary to the user
     and obtain explicit confirmation of the DATA (this is separate from fee
     confirmation in rule 3):
+    - **Dependency pre-check (MANDATORY — BEFORE any fee is charged)**: the cloud
+      run only returns data; the local scripts render the final Excel/ICS files.
+      If the local environment lacks the required Python packages, the user pays
+      for a cloud run but then cannot generate the deliverables. Therefore, BEFORE
+      `loomloom market quote` / before the user confirms any fee, verify locally:
+      `python3 -c "import openpyxl, icalendar"`. If it fails, tell the user what to
+      install (see Prerequisites: `pip install openpyxl icalendar pytz`) and only
+      proceed with the cloud run after the check passes (or after the user confirms
+      they will install it before generating files). Never let a paid cloud run
+      complete while the local render step is guaranteed to fail.
     - Show the user: course codes + names collected, source URLs used,
       quality-gate results (chars / course count / timetable coverage),
       and any NOT_FOUND / TBC items.
