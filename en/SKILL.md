@@ -16,7 +16,7 @@ description: >-
   text; local Python scripts to generate/save Excel (.xlsx) and ICS (.ics) files
   on the user's machine; optional paid cloud runs via the LoomLoom CLI
   (`loomloom market quote/run`) after explicit user confirmation and fee disclosure.
-version: 2.7.13
+version: 2.7.14
 author: course-scheduler
 license: MIT
 agent_created: true

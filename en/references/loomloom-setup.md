@@ -120,6 +120,15 @@ Excel generation and validation scripts behave identically in both modes.
 3. **Fill in the workbook**: one student per row — school, education system, major,
    year level, planning mode, goals & schedule preferences, the course catalog text
    (collected in step 1), and semester info.
+   **Privacy disclosure (required before submitting):** this workbook sends
+   student-level educational data — school, major, year level, academic goals, and
+   schedule preferences, plus the catalog text — to the selected third-party cloud
+   platform for processing. Tell the user exactly which fields will be transmitted,
+   who processes them, and that they are stored/processed under that platform's own
+   privacy policy; then obtain explicit consent to the transfer. Minimize the payload:
+   do not include student names, student IDs, emails, phone numbers, or other
+   identifying details unless strictly required — and remove them when they are not.
+   Declining the transfer means the cloud run cannot proceed (offer the local mode instead).
    **First delete the example rows that ship in the downloaded workbook** (typically
    "University of Melbourne" and "Tsinghua University") — otherwise they are submitted as
    extra paid tasks. After filling, check that the data-row count equals the number of
