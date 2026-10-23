@@ -98,7 +98,27 @@ If Mode A, also ask:
 
 ### Step 5.5: Execution Mode (执行方式)
 
-If Mode A, present the two execution modes and ask the user to choose.
+**第一步必须先问用户走本地还是云端（强制，不得跳过）。**
+问："你想怎么跑——**本地**（免费、不用安装）还是**云端标准模式**（付费、支持批量）？"
+
+- 用户选**本地** → 直接进 Step 6，无需安装。
+- 用户选**云端** → **必须先完成下面的云端上手引导，不得跳过。**
+
+#### 云端上手引导（强制 — 首次跑云端前必须全部说清）
+
+1. **告知用户云端需要先装 LoomLoom**（Skill 不会自动安装）。由**用户自己在终端装**（agent 不执行全局安装）：
+   ```bash
+   npm install -g @cogfoundry/loomloom
+   ```
+2. **装好后验证**：`loomloom doctor --output json`，须为 `healthy=true`。
+3. **需要 LoomLoom 账号**：在所选平台按平台自己的注册流程开通账号。
+   - 中国大陆支付（支付宝/微信/银联）→ **胜算云**，¥0.5/次
+   - 国际信用卡（Visa/Mastercard）→ **CogFoundry**，$0.10/次
+4. **用户用 `loomloom login` 交互式登录** — agent 不接触、不保存用户凭据。
+5. **费用与充值**：费用走平台自己的支付流程；余额不足时由用户在平台自己的账户流程里充值。运行前必须把预估费用报给用户并确认。
+
+> 若用户不愿安装、无账号或不接受付费云端 → 改推本地模式，**不得**强推云端。
+
 **批量 / 多校 / 需要决策报告 → 请选云端标准模式。**
 
 Ask: "AI 分析推荐有两种执行方式，你选哪种？批量 / 多所学校 / 需要标准化决策报告的话请选第一种（云端标准模式）。"
@@ -109,6 +129,10 @@ Ask: "AI 分析推荐有两种执行方式，你选哪种？批量 / 多所学�
   - 数据来源：云端步骤无网络访问，**必须先由本地 Agent 联网采集官方目录文本**（见 `references/catalog-collection.md`），或买家手动粘贴官方培养方案文本。目录越完整，输出越可靠。
   - 适用于：机构 / 批量（>20 人）/ 需要标准化决策报告 / 一次多所学校。
   - 成本：¥0.5/次（中国·胜算云）或 $0.10/次（国际·CogFoundry）+ 平台模型成本，运行前显示预估，确认后才扣费。
+  - **市场 Listing ID（买家路径，不得臆造）**：
+    - 胜算云（大陆支付）：`019fcadb-ec1c-737a-a986-b768851b020e`（¥0.5/次）
+    - CogFoundry（国际信用卡）：`019ff00f-a628-7c8e-8aac-03efe909f99a`（$0.10/次）
+  - 买家流程：`loomloom market workbook download <Listing ID>` → 填写（**先删示例行，行数=学生数**）→ `validate` → `quote` → 报费用确认 → `run --confirm`。
 - **支付方式 → 云端平台路由 (MANDATORY — ask BEFORE first cloud run, then remember)**:
   The same skill serves two cloud platforms. Decide which one a user uses by their
   payment method, NOT by IP or nationality:
